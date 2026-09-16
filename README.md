@@ -15,3 +15,15 @@ npm run dev
 ```bash
 docker compose up -d db
 ```
+
+#### Migrations
+
+```bash
+npx dbmate new create_new_table
+```
+
+Then
+
+```bash
+npx dbmate migrate
+```
