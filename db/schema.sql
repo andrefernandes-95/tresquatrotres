@@ -20,27 +20,12 @@ SET default_tablespace = '';
 SET default_table_access_method = heap;
 
 --
--- Name: administrative_areas; Type: TABLE; Schema: public; Owner: -
+-- Name: locations; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE public.administrative_areas (
-    code text NOT NULL,
-    name text NOT NULL,
-    slug text NOT NULL,
-    type text NOT NULL,
-    CONSTRAINT administrative_areas_type_check CHECK ((type = ANY (ARRAY['district'::text, 'autonomous_region'::text])))
-);
-
-
---
--- Name: municipalities; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE public.municipalities (
-    code text NOT NULL,
-    administrative_area_code text NOT NULL,
-    name text NOT NULL,
-    slug text NOT NULL
+CREATE TABLE public.locations (
+    area text NOT NULL,
+    municipality text NOT NULL
 );
 
 
@@ -54,35 +39,11 @@ CREATE TABLE public.schema_migrations (
 
 
 --
--- Name: administrative_areas administrative_areas_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: locations locations_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY public.administrative_areas
-    ADD CONSTRAINT administrative_areas_pkey PRIMARY KEY (code);
-
-
---
--- Name: administrative_areas administrative_areas_slug_key; Type: CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.administrative_areas
-    ADD CONSTRAINT administrative_areas_slug_key UNIQUE (slug);
-
-
---
--- Name: municipalities municipalities_administrative_area_code_slug_key; Type: CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.municipalities
-    ADD CONSTRAINT municipalities_administrative_area_code_slug_key UNIQUE (administrative_area_code, slug);
-
-
---
--- Name: municipalities municipalities_pkey; Type: CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.municipalities
-    ADD CONSTRAINT municipalities_pkey PRIMARY KEY (code);
+ALTER TABLE ONLY public.locations
+    ADD CONSTRAINT locations_pkey PRIMARY KEY (area, municipality);
 
 
 --
@@ -91,14 +52,6 @@ ALTER TABLE ONLY public.municipalities
 
 ALTER TABLE ONLY public.schema_migrations
     ADD CONSTRAINT schema_migrations_pkey PRIMARY KEY (version);
-
-
---
--- Name: municipalities municipalities_administrative_area_code_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.municipalities
-    ADD CONSTRAINT municipalities_administrative_area_code_fkey FOREIGN KEY (administrative_area_code) REFERENCES public.administrative_areas(code);
 
 
 --
