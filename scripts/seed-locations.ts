@@ -40,7 +40,7 @@ const seedDatabase = async () => {
 
   const placeholders = municipalities
     .map((_, index) => {
-      const firstParameter = index * 2 + 1;
+      const firstParameter = index * 2 + 1; // (1,2),(3,4),(5,6), ...,(2n−1,2n)
       return `($${firstParameter}, $${firstParameter + 1})`;
     })
     .join(", ");
