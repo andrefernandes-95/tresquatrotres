@@ -30,6 +30,36 @@ CREATE TABLE public.locations (
 
 
 --
+-- Name: pitches; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.pitches (
+    id bigint NOT NULL,
+    area text NOT NULL,
+    municipality text NOT NULL,
+    name text NOT NULL,
+    description text,
+    address text,
+    maps_url text,
+    created_at timestamp with time zone DEFAULT now() NOT NULL
+);
+
+
+--
+-- Name: pitches_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+ALTER TABLE public.pitches ALTER COLUMN id ADD GENERATED ALWAYS AS IDENTITY (
+    SEQUENCE NAME public.pitches_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1
+);
+
+
+--
 -- Name: schema_migrations; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -47,11 +77,35 @@ ALTER TABLE ONLY public.locations
 
 
 --
+-- Name: pitches pitches_area_municipality_name_key; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.pitches
+    ADD CONSTRAINT pitches_area_municipality_name_key UNIQUE (area, municipality, name);
+
+
+--
+-- Name: pitches pitches_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.pitches
+    ADD CONSTRAINT pitches_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: schema_migrations schema_migrations_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.schema_migrations
     ADD CONSTRAINT schema_migrations_pkey PRIMARY KEY (version);
+
+
+--
+-- Name: pitches pitches_area_municipality_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.pitches
+    ADD CONSTRAINT pitches_area_municipality_fkey FOREIGN KEY (area, municipality) REFERENCES public.locations(area, municipality);
 
 
 --
@@ -66,4 +120,5 @@ ALTER TABLE ONLY public.schema_migrations
 --
 
 INSERT INTO public.schema_migrations (version) VALUES
-    ('20260916221440');
+    ('20260916221440'),
+    ('20260919081542');

@@ -1,0 +1,38 @@
+"use client";
+
+import { Location } from "@/app/services/locations";
+import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
+import React from "react";
+
+interface Props {
+  selectedArea: string;
+  setSelectedArea: React.Dispatch<React.SetStateAction<string>>;
+  data: Location[];
+}
+
+export default function AreaSelector({
+  data,
+  selectedArea,
+  setSelectedArea,
+}: Props) {
+  const preparedData = [...new Set(data.map((entry) => entry.area))];
+
+  return (
+    <FormControl fullWidth>
+      <InputLabel id="select-area">Área</InputLabel>
+      <Select
+        labelId="select-area"
+        id="select-area"
+        value={selectedArea}
+        label="Área"
+        onChange={({ target: { value } }) => setSelectedArea(value)}
+      >
+        {preparedData.map((entry) => (
+          <MenuItem key={entry} value={entry}>
+            {entry}
+          </MenuItem>
+        ))}
+      </Select>
+    </FormControl>
+  );
+}
